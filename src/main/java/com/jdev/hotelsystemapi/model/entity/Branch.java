@@ -3,9 +3,17 @@ package com.jdev.hotelsystemapi.model.entity;
 
 import com.jdev.hotelsystemapi.enums.BranchType;
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="branch")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Branch {
 
     @Id
@@ -21,5 +29,15 @@ public class Branch {
 
     @Column(name = "branch_name", nullable = false)
     private String branchName;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hotel_id")
+    private Hotel hotel;
+
+    @OneToOne(mappedBy = "branch")
+    private Address address;
+
+    @OneToMany(mappedBy = "branch")
+    private List<Room> rooms;
 
 }
